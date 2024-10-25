@@ -10,9 +10,9 @@ export default {
   },
   data() {
     return {
-      usuarios: [], 
-      mensajes: [] 
-    };
+      usuarios: [],
+      mensajes: []
+    }
   },
   async mounted() {
     await this.obtenerUsuarios();
@@ -24,37 +24,76 @@ export default {
         const { data } = await axios.get(url);
         this.usuarios = data.results;
       } catch (error) {
-        console.error('Error al obtener los usuarios', error);
+        console.error(error);
       }
     },
     agregarMensaje(mensaje) {
-      console.log('Mensaje recibido:', mensaje);
       this.mensajes.push(mensaje);
     }
+  },
+  computed: {
+    informacionUsuarios() {
+      if (this.usuarios.length < 2) return null;
+      
+      return this.usuarios.map(usuario => ({
+        name: `${usuario.name.first} ${usuario.name.last}`,
+        img: usuario.picture.large,
+        data: usuario
+      }));
+    }
   }
-};
+}
 </script>
 
 <template>
-  <div>
-    <div v-if="usuarios.length === 2">
-      <div v-for="(usuario, index) in usuarios" :key="index">
-        <img :src="usuario.picture.large" alt="Imagen del usuario" />
-        <h2>{{ usuario.name.first }} {{ usuario.name.last }}</h2>
-        <MessageInput :usuario="usuario" @enviarMensaje="agregarMensaje" />
-      </div>
+  <div class="contenedor__vuessenger">
+    <div v-if="informacionUsuarios" class="contenedor__usuario">
+      <img :src="informacionUsuarios[0].img" alt="Imagen del usuario" />
+      <h3>{{ informacionUsuarios[0].name }}</h3>
+      <MessageInput :usuario="informacionUsuarios[0].data" @enviarMensaje="agregarMensaje" />
     </div>
-    
+
     <Chat :mensajes="mensajes" :usuarios="usuarios" />
+
+    <div v-if="informacionUsuarios" class="contenedor__usuario">
+      <img :src="informacionUsuarios[1].img" alt="Imagen del usuario" />
+      <h3>{{ informacionUsuarios[1].name }}</h3>
+      <MessageInput :usuario="informacionUsuarios[1].data" @enviarMensaje="agregarMensaje" />
+    </div>
   </div>
 </template>
 
 <style scoped>
+.contenedor__vuessenger{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 1em; 
+  gap: 1em;
+  margin: 1em 0;
+}
+
 img {
   border-radius: 50%;
   width: 100px;
   height: 100px;
   object-fit: cover;
   margin-bottom: 10px;
+}
+
+.contenedor__usuario{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 1em;
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid var(--color-verde);
+  border-radius: 10px;
 }
 </style>

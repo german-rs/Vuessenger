@@ -1,41 +1,59 @@
 <script>
-  export default {
-    props: {
-      usuario: Object
-    },
-    data() {
-      return {
-        texto: '', 
-        color: '#ffffff'
-      };
-    },
-    methods: {
-      enviarMensaje() {
-        if (this.texto.trim()) {
-          const mensaje = {
-            usuario: this.usuario,
-            texto: this.texto,
-            color: this.color
-          };
-          this.$emit('enviarMensaje', mensaje); 
-          this.texto = ''; 
-          this.color = '#ffffff';
-        }
+import TextArea from './TextArea.vue';
+import Button from './Button.vue';
+import Colour from './Colour.vue';
+export default {
+  components:{
+    TextArea,
+    Button,
+    Colour
+  },
+  props: {
+    usuario: Object
+  },
+  data() {
+    return {
+      texto: '', 
+      color: this.usuario.color || '#ffffff' 
+    };
+  },
+  watch: {
+    color(newColor) {
+      this.usuario.color = newColor; 
+    }
+  },
+  methods: {
+    enviarMensaje() {
+      if (this.texto.trim()) {
+        const mensaje = {
+          usuario: this.usuario,
+          texto: this.texto,
+          color: this.usuario.color 
+        };
+        this.$emit('enviarMensaje', mensaje);
+        this.texto = ''; 
       }
     }
-  };
+  }
+}
 </script>
 
 <template>
-  <div>
-    <input v-model="texto" placeholder="Escribe un mensaje..." />
-    <input type="color" v-model="color" />
-    <button @click="enviarMensaje">Enviar</button>
+  <div class="contenedor__formulario">
+    <Colour v-model="color"/>
+    <TextArea v-model="texto" @keyup.enter="enviarMensaje" />
+    <Button @click="enviarMensaje"/>
   </div>
 </template>
   
 <style scoped>
-input {
-  margin-right: 10px;
-}
+  .contenedor__formulario {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: .5em;
+    padding: 1em;
+  }
 </style>
