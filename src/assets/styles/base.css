@@ -25,8 +25,8 @@
 }
 
 :root {
-  --color-fondo: var(--color-gris50);
-  --color-fondo-footer: var(--color-gris300);
+  --color-fondo: var(--color-gris100);
+  --color-fondo-footer: var(--color-gris200);
 }
 
 *,

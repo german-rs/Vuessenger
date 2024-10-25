@@ -1,22 +1,3 @@
-<template>
-    <div>
-      <h2>Chat</h2>
-      <div v-for="(mensaje, index) in mensajes" :key="index">
-        <div 
-          :class="{'nombre-usuario1': esUsuario1(mensaje.usuario), 'nombre-usuario2': esUsuario2(mensaje.usuario)}"
-          class="nombre-usuario">
-          <strong>{{ mensaje.usuario.name.first }} {{ mensaje.usuario.name.last }}</strong>
-        </div>
-        <div 
-          :class="{'mensaje-usuario1': esUsuario1(mensaje.usuario), 'mensaje-usuario2': esUsuario2(mensaje.usuario)}"
-          :style="{ backgroundColor: mensaje.color }" 
-          class="texto-mensaje">
-          {{ mensaje.texto }}
-        </div>
-      </div>
-    </div>
-  </template>
-  
 <script>
 export default {
   props: {
@@ -27,55 +8,64 @@ export default {
     esUsuario1(usuario) {
       return usuario === this.usuarios[0];
     },
-    esUsuario2(usuario) {
-      return usuario === this.usuarios[1];
+    obtenerEstiloMensaje(usuario) {
+      const esUsuario1 = this.esUsuario1(usuario);
+      return {
+        textAlign: esUsuario1 ? 'left' : 'right',
+        marginRight: esUsuario1 ? 'auto' : '0',
+        marginLeft: esUsuario1 ? '0' : 'auto',
+        backgroundColor: usuario.color,
+      };
     }
   }
-};
+}
 </script>
 
+<template>
+  <div class="chat-container">
+    <div class="chat-mensajes">
+      <div v-for="(mensaje, index) in mensajes" :key="index">
+        <div :style="{ textAlign: esUsuario1(mensaje.usuario) ? 'left' : 'right' }" class="nombre-usuario">
+          <strong>{{ mensaje.usuario.name.first }} {{ mensaje.usuario.name.last }}</strong>
+        </div>
+        <div :style="obtenerEstiloMensaje(mensaje.usuario)" class="texto-mensaje">
+          {{ mensaje.texto }}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
 <style scoped>
-.nombre-usuario1 {
-  text-align: left;
-  margin-right: auto;
-  max-width: 60%;
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.mensaje-usuario1 {
-  text-align: left;
-  margin-right: auto;
+.chat-mensajes {
+  width: 400px;
+  height: 400px;
+  overflow-y: auto;
   padding: 10px;
-  border-radius: 10px;
-  max-width: 60%;
-}
-
-.nombre-usuario2 {
-  text-align: right;
-  margin-left: auto;
-  max-width: 60%;
-}
-
-.mensaje-usuario2 {
-  text-align: right;
-  margin-left: auto;
-  padding: 10px;
-  border-radius: 10px;
-  max-width: 60%;
+  box-sizing: border-box;
+  border-radius: 15px; 
+  border: 2px solid transparent;
+  border-image: linear-gradient(to right, #42d392, #549ced) 2 2;
+  background-color: var(--color-gris50);
 }
 
 .nombre-usuario {
   font-weight: bold;
   margin-bottom: 5px;
+  font-size: 12px;
+  padding-top: 1em;
+  color: var(--color-gris600);
 }
 
 .texto-mensaje {
   padding: 10px;
   border-radius: 10px;
-}
-
-div {
-  margin: 10px 0;
-  padding: 10px;
-  border-radius: 5px;
+  max-width: 60%;
 }
 </style>
