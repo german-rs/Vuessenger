@@ -2,6 +2,9 @@
 
 ![Captura de la aplicación web Vuessenger](./public/vuessenger.jpg)
 
+
+Revisar la [👉👉 aplicación](https://vuessenger.vercel.app/)
+
 # Resumen de Elementos de Vue.js Utilizados
 
 En este proyecto hemos implementado diversos elementos fundamentales de Vue.js para construir una aplicación de chat interactiva y dinámica. A continuación, se detallan los principales conceptos y funcionalidades de Vue.js que se han utilizado:
@@ -48,4 +51,4 @@ Utilizamos Axios, una biblioteca de JavaScript para realizar solicitudes HTTP, p
 
 ## Vídeo de demostrarción
 
-![Video de demostración](./public/vuessenger.mp4)
+[Video de demostración](./public/vuessenger.mp4)
