@@ -3,7 +3,7 @@
 ![Captura de la aplicación web Vuessenger](./public/vuessenger.jpg)
 
 
-Revisar la [👉👉 aplicación](https://vuessenger.vercel.app/)
+### Revisar la 👉👉 [Aplicación web](https://vuessenger.vercel.app/)
 
 # Resumen de Elementos de Vue.js Utilizados
 
