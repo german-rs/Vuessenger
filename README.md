@@ -51,4 +51,4 @@ Utilizamos Axios, una biblioteca de JavaScript para realizar solicitudes HTTP, p
 
 ## Vídeo de demostrarción
 
-[Video de demostración](./public/vuessenger.mp4)
+![Video de demostración](./public/vuessenger.gif)
